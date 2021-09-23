@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1632436560 source:e:\documents\github\tp-algoritmos-grupo\trabajo práctico grupal k1024\main.cpp
+	<iostream>
+	<conio.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+

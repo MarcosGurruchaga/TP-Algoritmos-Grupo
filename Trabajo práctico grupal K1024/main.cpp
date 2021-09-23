@@ -12,7 +12,7 @@ char mostrarmenu()
     cout << "Ingrese una opcion: " << endl;
     cout << "1 - Ingresar un nuevo registro" << endl;
     cout << "2 - Mostrar registros actuales" << endl;
-    cout << "3 - --------- " << endl;
+    cout << "3 - Terminar el dia " << endl;
     cout << "4 - --------- " << endl;
     cout << "esc - Salir" << endl;
     char opcion;
@@ -20,6 +20,7 @@ char mostrarmenu()
     {
        opcion=getch();
     } while ((opcion!='1') && (opcion!='2') && (opcion!='3') && (opcion!='4') && (opcion!=27));
+    system("cls");
     return opcion;
 }
 
@@ -41,7 +42,7 @@ int main()
 
         int i;
 
-        if (f = fopen("ejercicio1.txt","wb"))
+        if (f = fopen("ejercicio1.txt","ab"))
         {
             for (i=0; i<n;i++)
             {
