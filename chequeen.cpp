@@ -65,9 +65,9 @@ void menu (int prog)
     else
     {
         cout << "Ingrese la opcion que desee efectuar"<<endl;
-        cout << "1-Crear un nuevo cliente"<<:endl;
-        cout << "2-Desactivar un cliente"<<:endl;
-        cout <<"3-Procesar un lote"<<:endl;
+        cout << "1-Crear un nuevo cliente"<<endl;
+        cout << "2-Desactivar un cliente"<<endl;
+        cout <<"3-Procesar un lote"<<endl;
         cout <<"4-Buscar cliente por ID o mail"<<endl;
         cout <<"5-Listar los clientes"<<endl;
         cout <<"6-Procesar lote"<<endl;
