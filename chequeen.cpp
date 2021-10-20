@@ -60,21 +60,21 @@ void menu (int prog)
 {
     if (prog==0)
     {
-        cout<<"GRACIAS POR UTILIZAR EL PROGRAMA"<<std::endl;
+        cout<<"GRACIAS POR UTILIZAR EL PROGRAMA"<<endl;
     }
     else
     {
-        cout << "Ingrese la opcion que desee efectuar"<<std::endl;
-        cout << "1-Crear un nuevo cliente"<<std::endl;
-        cout << "2-Desactivar un cliente"<<std::endl;
-        cout <<"3-Procesar un lote"<<std::endl;
-        cout <<"4-Buscar cliente por ID o mail"<<std::endl;
-        cout <<"5-Listar los clientes"<<std::endl;
-        cout <<"6-Procesar lote"<<std::endl;
-        cout <<"7-Mostrar todas las compras de un cliente"<<std::endl;
-        cout <<"8-Mostrar todas las compras de un cliente entre dos fechas (HTML)"<<std::endl;
-        cout <<"9-Mostrar todas las compras de un cliente entre dos fechas (CSV)"<<std::endl;
-        cout <<"10-Finalizar jornada y guardar datos"<<std::endl;
+        cout << "Ingrese la opcion que desee efectuar"<<endl;
+        cout << "1-Crear un nuevo cliente"<<:endl;
+        cout << "2-Desactivar un cliente"<<:endl;
+        cout <<"3-Procesar un lote"<<:endl;
+        cout <<"4-Buscar cliente por ID o mail"<<endl;
+        cout <<"5-Listar los clientes"<<endl;
+        cout <<"6-Procesar lote"<<endl;
+        cout <<"7-Mostrar todas las compras de un cliente"<<endl;
+        cout <<"8-Mostrar todas las compras de un cliente entre dos fechas (HTML)"<<endl;
+        cout <<"9-Mostrar todas las compras de un cliente entre dos fechas (CSV)"<<endl;
+        cout <<"10-Finalizar jornada y guardar datos"<<endl;
     };
 
 };
@@ -222,7 +222,7 @@ int main ()
                     };
                 case 2:
                 {
-                    cout<<"¿Se procederaa modificar el estado de un usuario, esta seguro ?";
+                    cout<<"ï¿½Se procederaa modificar el estado de un usuario, esta seguro ?";
                     option=aceptar();
                     modificacion();
                     break;
