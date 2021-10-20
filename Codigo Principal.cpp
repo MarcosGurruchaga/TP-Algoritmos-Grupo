@@ -140,6 +140,7 @@ void cargarcli(int &b)
     cliente usuarios;
     usuarios.id_client=b;
     strcpy(usuarios.fechcrea,ff);
+    cout << "Ingrese el importe del usuario" << endl;
     cin >> usuarios.totalcom;
     
     usuarios.estado=true;
@@ -231,6 +232,7 @@ void busCli()
                 cout << "MAIL: " << variable.mail  << endl;
                 cout << "IMPORTE: " << variable.totalcom  << endl;
                 cout << "ESTADO: " << variable.estado  << endl;
+                cout << "FECHA " << variable.fechcrea  << endl;
                 encontrado=true;
                 }
 
