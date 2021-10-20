@@ -95,9 +95,9 @@ void contacli(int &contador)
 }
 void cargarcli(int &b)
 {
-                     FILE* USERS;
-                     char ff[9], dirmail[150];
-                     time_t rawtime=time(0);
+    FILE* USERS;
+    char ff[9], dirmail[150];
+     time_t rawtime=time(0);
                      struct  tm timeinfo;
                      timeinfo =*localtime(&rawtime);
                      strftime(ff,80,"%Y-%m-%d",   &timeinfo);
@@ -215,7 +215,7 @@ int main ()
                 }
                 case 1:
                     {
-                     int   b;
+                     int b;
                      contacli(b);
                      cargarcli(b);
                      break;
