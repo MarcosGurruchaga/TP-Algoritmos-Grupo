@@ -14,6 +14,7 @@ struct compra
 	int narticulo;
 	int cantidad;
 };
+
 struct cliente
 {
 	int id_client;
@@ -26,22 +27,19 @@ struct cliente
 void cargar(int b,char feac[9])
 {
     FILE *USERS;
-    USERS = fopen("c:/users/Lucas/Desktop/USUARIOS.bin", "ab+");
-
+    USERS = fopen("USUARIOS.bin", "ab+");
     cliente usuarios;
     usuarios.id_client=b;
     fflush(stdin);
     usuarios.fechcrea[9] =feac[9];
     usuarios.totalcom=0;
     usuarios.estado=1;
-        printf("Ingrese su mail:    ");
+    printf("Ingrese su mail:    ");
     cin>>(usuarios.mail);
     fwrite(&usuarios, sizeof(cliente), 1, USERS);
     fclose(USERS);
     return;
 };
-
-
 
 void fechyho( char &fecha)
 {
@@ -64,10 +62,10 @@ void menu (int prog)
     }
     else
     {
-        cout << "Ingrese la opcion que desee efectuar"<<endl;
-        cout << "1-Crear un nuevo cliente"<<:endl;
-        cout << "2-Desactivar un cliente"<<:endl;
-        cout <<"3-Procesar un lote"<<:endl;
+        cout <<"Ingrese la opcion que desee efectuar"<<endl;
+        cout <<"1-Crear un nuevo cliente"<<endl;
+        cout <<"2-Desactivar un cliente"<<endl;
+        cout <<"3-Procesar un lote"<<endl;
         cout <<"4-Buscar cliente por ID o mail"<<endl;
         cout <<"5-Listar los clientes"<<endl;
         cout <<"6-Procesar lote"<<endl;
@@ -78,10 +76,11 @@ void menu (int prog)
     };
 
 };
+
 void contacli(int &contador)
 {   contador=1;
     FILE *USERS;
-    USERS=fopen("c:/users/Lucas/Desktop/USUARIOS.bin", "rb");
+    USERS=fopen("USUARIOS.bin", "rb");
     if (USERS==NULL)
         exit(1);
     cliente cliloc;
@@ -93,30 +92,31 @@ void contacli(int &contador)
     }
     return ;
 }
+
 void cargarcli(int &b)
 {
     FILE* USERS;
     char ff[9], dirmail[150];
-     time_t rawtime=time(0);
-                     struct  tm timeinfo;
-                     timeinfo =*localtime(&rawtime);
-                     strftime(ff,80,"%Y-%m-%d",   &timeinfo);
-                     USERS = fopen("c:/users/Lucas/Desktop/USUARIOS.bin", "ab+");
-                     fflush(stdin);
-                     cliente usuarios;
-                     usuarios.id_client=b;
-                     strcpy(usuarios.fechcrea,ff);
-                     usuarios.totalcom=0.1;
-                     usuarios.estado=true;
-                     printf("Ingrese su mail:    ");
-                     cin>>dirmail;
-                     strcpy(usuarios.mail,dirmail);
-                     fwrite(&usuarios, sizeof(cliente), 1, USERS);
-                     fclose(USERS);
+    time_t rawtime=time(0);
+    struct  tm timeinfo;
+    timeinfo =*localtime(&rawtime);
+    strftime(ff,80,"%Y-%m-%d",   &timeinfo);
+    USERS = fopen("USUARIOS.bin", "ab+");
+    fflush(stdin);
+    cliente usuarios;
+    usuarios.id_client=b;
+    strcpy(usuarios.fechcrea,ff);
+    usuarios.totalcom=0.1;
+    usuarios.estado=true;
+    printf("Ingrese su mail:    ");
+    cin>>dirmail;
+    strcpy(usuarios.mail,dirmail);
+    fwrite(&usuarios, sizeof(cliente), 1, USERS);
+    fclose(USERS);
 }
 
 int busCli(FILE* f,cliente &c, bool opcion)
-{       f=fopen("c:/users/Lucas/Desktop/USUARIOS.bin", "rb");
+{       f=fopen("USUARIOS.bin", "rb");
         cliente cli;
         int  posicion=-1;
         char busqueda[150];
@@ -194,39 +194,33 @@ int main ()
 	cliente aux;
 
     FILE *USERS;
-    USERS = fopen("c:/users/Lucas/Desktop/USUARIOS.bin", "ab");
+    USERS = fopen("USUARIOS.bin", "ab");
 
     FILE *COMPRAS;
-    USERS = fopen("c:/users/Lucas/Desktop/COMPRAS.bin", "wb");
-    cout<<" Ingrese 1 para comenzar y 0 para finalizar";
+    USERS = fopen("COMPRAS.bin", "wb");
+    cout<< "Ingrese 1 para comenzar y 0 para finalizar" << endl;
     cin>>comen;
 
     if (comen==1)
-    {   menu(comen);
-         while (comen==1)
-        {
+    {   
+        menu(comen);
+         while (comen==1) {
             cin>>opcion;
             switch (opcion)
             {
                 case 0:
-                {
                     comen=0;
                     break;
-                }
                 case 1:
-                    {
                      int b;
                      contacli(b);
                      cargarcli(b);
                      break;
-                    };
                 case 2:
-                {
                     cout<<"�Se procederaa modificar el estado de un usuario, esta seguro ?";
                     option=aceptar();
                     modificacion();
                     break;
-                }
 
             }
             cout<< "ingrese otra opcion"<<endl;
