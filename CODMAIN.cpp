@@ -30,32 +30,32 @@ enum OPCIONES_MENU{
 
     LevantarUsers = 1,
     CargarUser = 2,
-
-
 };
 
 //***************************  PROTOTIPOS  ************************************
 
 void fechyho(char &);
-bool aceptar(void);
-void menu (int);
-void levantarclientes();
-void contacli(int &);
-void cargarcli(int &);
-void modificacion(void);
-void busCli(void);
-void levantaryordenar(void);
-void escribirReporteHTML(compra [], int );
-void escribirReporteCSV(compra [], int );
+bool AceptarODenegar(void);
+void MostrarMenu (int);
+void LevantarClientes();
+void ContarClientes(int &);
+void CargarCliente(int &);
+void DesactivarCliente(void);
+void BuscarYMostrarCliente(void);
+void ListarClientes(void);
+void EscribirReporteHTML(compra [], int );
+void EscribirReporteCSV(compra [], int );
 void procesar_lote(bool);
 void CompraRand(cliente,compra&,float&);
 void MostrarComprasDeUsuario(int);
 void cargarCiente(void);
+
 ///***************************  MAIN  ************************************
 
 int main ()
 {
-	int me=700, art=0, cantart=0, mont=0, totcom=0, montlot=0, cantlot=0, preart=0, montotxart=0, stop=1,comen=1, opcion,  a=0 ;
+	int me=700, art=0, cantart=0, mont=0, totcom=0, montlot=0, cantlot=0;
+	int preart=0, montotxart=0, stop=1,comen=1, opcion,  a=0 ;
 	char ffch[100];
 	bool option=false;
 	cliente aux;
@@ -73,13 +73,13 @@ int main ()
     //if (comen==1)
     //{
 
-     FILE *COMPRAS;
-     COMPRAS = fopen("PROCESADOS.bin", "rw");
+    FILE *COMPRAS;
+    COMPRAS = fopen("PROCESADOS.bin", "rw");
     if(!COMPRAS)procesar_lote(0);
 
     while(1){
         system("cls");
-        menu(comen);
+        MostrarMenu(comen);
         cin>>opcion;
         switch (opcion){
 
@@ -91,7 +91,7 @@ int main ()
 
             case 1:
                 system("cls");
-                levantarclientes();
+                LevantarClientes();
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
 
@@ -101,8 +101,8 @@ int main ()
             case 2:
                 system("cls");
                 int b;
-                //contacli(b);
-                //cargarcli(b);
+                //ContarClientes(b);
+                //CargarCliente(b);
                 cargarCiente();
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
@@ -113,15 +113,15 @@ int main ()
             case 3:
                 system("cls");
                 cout<<"�Se procederaa modificar el estado de un usuario, esta seguro ?";
-                option=aceptar();
-                modificacion();
+                option=AceptarODenegar();
+                DesactivarCliente();
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
 
             break;
             case 4:
                 system("cls");
-                busCli();
+                BuscarYMostrarCliente();
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
 
@@ -129,7 +129,7 @@ int main ()
 
             case 5:
                 system("cls");
-                levantaryordenar();
+                ListarClientes();
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
 
@@ -208,6 +208,7 @@ void MostrarComprasDeUsuario(int id){
 }
 
 void CompraRand(cliente x, compra &comp, float &totc){
+
     float ArmC;
 
     comp.id_compra = rand()%9999+1;
@@ -252,27 +253,24 @@ void procesar_lote(bool sec){
     srand((long)time(NULL));
 
     FILE* USERS, *COMP;
-
     int s=0, i=0, e = 0, cantU=0;
-    contacli(cantU);
+    ContarClientes(cantU);
     cliente *aux = new cliente[cantU-1];
-
     compra c;
     compra shop[1000];
-
     short cnt_cpr;
-
     float monto_x_c;
 
     if (USERS = fopen("USUARIOS.bin","rb")){
-      fread(&aux[i],sizeof(cliente),1,USERS);
 
+        fread(&aux[i],sizeof(cliente),1,USERS);
         while (!feof(USERS)){
             i++;
             fread(&aux[i],sizeof(cliente),1,USERS);
         }
     }
-    else cout<<"error";
+    else
+        cout<<"error";
 
     fclose(USERS);
 
@@ -300,7 +298,6 @@ void procesar_lote(bool sec){
                 fread(&shop[e],sizeof(compra),1,COMP);
 
             }
-
             fclose(COMP);
         }
 
@@ -371,8 +368,6 @@ void procesar_lote(bool sec){
             }
         }
 
-
-
         /*for(int cnt=0;cnt<e;cnt++){
             cout << "***************USUARIO******************" << endl;
                 cout << "ID_COMPRA: " << shop[cnt].id_compra  << endl;
@@ -382,8 +377,6 @@ void procesar_lote(bool sec){
                 cout << "FECHA Y HORA" << shop[cnt].fechactucom  << endl;
                 cout << "NRO DE ARTC." << shop[cnt].narticulo  << endl;
         }*/
-
-
 
         if(COMP = fopen("PROCESADOS.bin","wb")){
                 for(short cnt = 0 ; cnt < e ; cnt++){
@@ -410,10 +403,7 @@ void procesar_lote(bool sec){
 
                 fseek(COMP,0,SEEK_END);
                 fwrite(&c, sizeof(compra),1, COMP);//SE ESCRIBE EL ARCHIVO PROC.BIN
-
-
             }
-
         }
         fclose(COMP);
         /*cout<<"SE CARGO EL ARCHIVO PROCESADOS.bin";
@@ -462,7 +452,6 @@ void procesar_lote(bool sec){
             fwrite(&aux[cnt], sizeof(cliente),1, USERS);
             fseek(USERS,0,SEEK_END);
         }
-
     }
     fclose(USERS);
     delete []aux;
@@ -484,20 +473,24 @@ void fechyho( char &fecha)
 };
 
 
-bool aceptar( )
+bool AceptarODenegar( )
 {
     bool acep;
     char opcion;
+
     cout<< "Ingrese Y para aceptar o N para denegar"<<endl;
     cin>>opcion;
+
     if (opcion=='Y' || opcion== 'y')
     {
         acep=true;
-    }else {acep=false;};
+    }else{
+        acep=false;
+    }
     return acep;
 }
 
-void menu (int prog)
+void MostrarMenu (int prog)
 {
     if (prog==0)
     {
@@ -516,55 +509,59 @@ void menu (int prog)
         cout <<"8-Mostrar todas las compras de un cliente entre dos fechas (HTML)"<<endl;
         cout <<"9-Mostrar todas las compras de un cliente entre dos fechas (CSV)"<<endl;
         cout <<"10-Finalizar jornada y guardar datos"<<endl;
-    };
+    }
 
-};
+}
 
 
 //***************************PUNTO 1************************************
-void levantarclientes()
+void LevantarClientes()
 {
 
     FILE* USERS;
     int i=0;
-
     cliente aux[11];
+
     //levanto todos los usuarios
     if (USERS = fopen("USUARIOS.bin","rb"))
     {
         cout<<"ok"<<endl;
         fread(&aux[i],sizeof(cliente),1,USERS);
 
-            while (!feof(USERS))
-            {
-                //fread(&aux[i],sizeof(cliente),1,USERS);
+        while (!feof(USERS))
+        {
+            //fread(&aux[i],sizeof(cliente),1,USERS);
+            cout << "***************USUARIO******************" << endl;
+            cout << "ID: " << aux[i].id_client  << endl;
+            cout << "MAIL: " << aux[i].mail  << endl;
+            cout << "IMPORTE: " << aux[i].totalcom  << endl;
+            cout << "ESTADO: " << aux[i].estado  << endl;
+            cout << "FECHA " << aux[i].fechcrea  << endl;
+            i++;
+            fread(&aux[i],sizeof(cliente),1,USERS);
 
-                cout << "***************USUARIO******************" << endl;
-                cout << "ID: " << aux[i].id_client  << endl;
-                cout << "MAIL: " << aux[i].mail  << endl;
-                cout << "IMPORTE: " << aux[i].totalcom  << endl;
-                cout << "ESTADO: " << aux[i].estado  << endl;
-                cout << "FECHA " << aux[i].fechcrea  << endl;
-                i++;
-                fread(&aux[i],sizeof(cliente),1,USERS);
-
-            }
+        }
         //fclose(USERS);
-    }else cout<<"error";
+    }else
+        cout<<"error";
+
     fclose(USERS);
-getch();
+    getch();
 
 }
 
 //***************************PUNTO 2************************************
 
-void contacli(int &contador)
-{   contador=1;
+void ContarClientes(int &contador)
+{
+    contador=1;
     FILE *USERS;
+    cliente cliloc;
     USERS=fopen("USUARIOS.bin", "rb");
+
     if (USERS==NULL)
         exit(1);
-    cliente cliloc;
+
     fread(&cliloc, sizeof(cliente), 1, USERS);
     while(!feof(USERS))
     {
@@ -574,10 +571,9 @@ void contacli(int &contador)
     return ;
 }
 
-void cargarcli(int &b)
+void CargarCliente(int &b)
 {
     FILE* USERS;
-
     char ff[9], dirmail[150];
     time_t rawtime=time(0);
     struct  tm timeinfo;
@@ -614,9 +610,9 @@ void cargarCiente(void){
     int i=0;
     string email;
 
-     if (USERS = fopen("USUARIOS.bin","rb")){
-      fread(&aux[i],sizeof(cliente),1,USERS);
+    if (USERS = fopen("USUARIOS.bin","rb")){
 
+        fread(&aux[i],sizeof(cliente),1,USERS);
         while (!feof(USERS)){
             i++;
             fread(&aux[i],sizeof(cliente),1,USERS);
@@ -642,9 +638,7 @@ void cargarCiente(void){
         cout<<"Estado: "<<aux[cnt].estado<<endl;
         cout<<"Importe total de compras: "<<aux[cnt].totalcom<<endl;
         cout<<"Email: "<<aux[cnt].mail<<endl;
-
         cout<<"---------------------------------------------"<<endl;
-
     }
 
      if (USERS = fopen("USUARIOS.bin","wb")){
@@ -653,25 +647,27 @@ void cargarCiente(void){
             fwrite(&aux[cnt], sizeof(cliente),1, USERS);
             fseek(USERS,0,SEEK_END);
         }
-
     }
     fclose(USERS);
 
     return;
-
 }
+
 //***************************PUNTO 3************************************
-void modificacion()
+void DesactivarCliente()
 {
     FILE *f;
+    cliente clienteloc;
+    char mailloc[150];
+    int existe=0;
+
     f=fopen("USUARIOS.bin","rb+");
     if (f==NULL)
         exit(1);
+
     cout<<"Ingrese el mail del cliente a desactivar:   "<<endl;
-    char mailloc[150];
     scanf ("%79s",mailloc);
-    cliente clienteloc;
-    int existe=0;
+
     fread(&clienteloc, sizeof(cliente), 1, f);
     while(!feof(f))
     {
@@ -696,13 +692,14 @@ void modificacion()
 }
 
 //***************************PUNTO 4************************************
-void busCli()
+void BuscarYMostrarCliente()
 {
     char busquedamail[150];
     FILE* USERS;
     bool encontrado=false;
     cliente variable;
     int busquedaid=0;
+    int opcion=0;
 
     if (USERS = fopen("USUARIOS.bin","rb"))
     {
@@ -711,37 +708,38 @@ void busCli()
         cout << "1: Por ID" <<endl;
         cout << "2: Por Mail" <<endl;
         cout<<"3: Salir";
-        int opcion=0;
+
         while (opcion!=1 && opcion != 2 && opcion != 3)
         {
         cin >> opcion;
         }
+
         switch (opcion) {
+
             case 1:
                 system("cls");
-            cout<< "Ingrese la ID del usuario que desea encontrar"<<endl;
-            cin >> busquedaid;
-            break;
+                cout<< "Ingrese la ID del usuario que desea encontrar"<<endl;
+                cin >> busquedaid;
+                break;
+
             case 2:
                 system("cls");
-            cout<< "Ingrese el mail del usuario que desea encontrar"<<endl;
-            scanf ("%79s",busquedamail);
-
-            break;
+                cout<< "Ingrese el mail del usuario que desea encontrar"<<endl;
+                scanf ("%79s",busquedamail);
+                break;
 
             case 3:
                 return;
             break;
-
         }
 
         fread(&variable,sizeof(cliente),1,USERS);
 
-            while (!feof(USERS))
+        while (!feof(USERS))
+        {
+            if (strcmp(variable.mail,busquedamail)==0 || variable.id_client == busquedaid)
             {
-                if (strcmp(variable.mail,busquedamail)==0 || variable.id_client == busquedaid)
-                {
-                    system("cls");
+                system("cls");
                 cout << "**********USUARIO ENCONTRADO************" << endl;
                 cout << "ID: " << variable.id_client  << endl;
                 cout << "MAIL: " << variable.mail  << endl;
@@ -749,36 +747,32 @@ void busCli()
                 cout << "ESTADO: " << variable.estado  << endl;
                 cout << "FECHA " << variable.fechcrea  << endl;
                 encontrado=true;
-                }
-
-                fread(&variable,sizeof(cliente),1,USERS);
             }
+            fread(&variable,sizeof(cliente),1,USERS);
+        }
         fclose(USERS);
-    } else
-    {
+
+    } else {
         system("cls");
         cout << "No hay ningun usuario aún" << endl;
     }
 
-    if (encontrado==false)
-
-    {
+    if (encontrado==false){
         system("cls");
         cout << "No se encontro el usuario" << endl;
     }
-    return;
 
+    return;
 }
 
 
 
 //***************************PUNTO 5************************************
-void levantaryordenar()
+void ListarClientes()
 {
-
     FILE* USERS;
     int count;
-    contacli(count);
+    ContarClientes(count);
     count--;
 
 	int id_clientaux=0;
@@ -786,15 +780,15 @@ void levantaryordenar()
 	bool estadoaux=false;
 	float totalcomaux;
 	char mailaux[150];
+	int j=0;
 
 
     cliente *p = new cliente[count];
-    int j=0;
 
     //levanto los clientes en base a la cantidad que hay
     if (USERS = fopen("USUARIOS.bin","rb"))
     {
-         fread(&p[0],sizeof(cliente),1,USERS);
+        fread(&p[0],sizeof(cliente),1,USERS);
             while (!feof(USERS))
             {
                 j++;
@@ -802,9 +796,11 @@ void levantaryordenar()
             }
         fclose(USERS);
     }
+
     //ordeno burbujamente
     for (int i=1; i<count; i++) {
         for (int j=0; j<count - 1; j++) {
+
             if (p[j].totalcom > p[j+1].totalcom) {
             totalcomaux = p[j].totalcom;
             p[j].totalcom = p[j+1].totalcom;
@@ -828,34 +824,36 @@ void levantaryordenar()
 
          }
       }
-   }
+    }
 
     //muestro por totalcom ordenado
     cout << "**********ORDENADOS POR IMPORTE*********" << endl;
     for (int i=0; i<count; i++) {
-    cout << "***************USUARIO******************" << endl;
-    cout << "ID: " << p[i].id_client  << endl;
-    cout << "MAIL: " << p[i].mail  << endl;
-    cout << "IMPORTE: " << p[i].totalcom  << endl;
-    cout << "ESTADO: " << p[i].estado  << endl;
-    cout << "FECHA " << p[i].fechcrea  << endl;
-    }
 
+        cout << "***************USUARIO******************" << endl;
+        cout << "ID: " << p[i].id_client  << endl;
+        cout << "MAIL: " << p[i].mail  << endl;
+        cout << "IMPORTE: " << p[i].totalcom  << endl;
+        cout << "ESTADO: " << p[i].estado  << endl;
+        cout << "FECHA " << p[i].fechcrea  << endl;
+    }
     delete []p;
 }
 
-//PUNTO 7 (tiene que llegarle el vector con todas las compras)
-void escribirReporteHTML(compra v[], int tam)
+//********** PUNTO 7 (tiene que llegarle el vector con todas las compras) *************//
+void EscribirReporteHTML(compra v[], int tam)
 {
-
     FILE *f;
     char c1[17]="",c2[17]="";
+    int i= 0;
+
     cout << "Indique una fecha con el formato DD/MM/AAAA" << endl;
     scanf ("%79s",c1);
     cout << "Indique otra fecha" << endl;
     scanf ("%79s",c2);
 
     f = fopen("Reporte de lotes en HTML.html", "wt");
+
     fprintf(f,"<html> \n");
     fprintf(f,"<style>\n");
     fprintf(f,"#clientes {font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;}\n");
@@ -869,7 +867,6 @@ void escribirReporteHTML(compra v[], int tam)
     fprintf(f,"<h1 style='font-family: Arial, Helvetica, sans-serif;'>Lotes entre el %s y el %s </h1>\n",c1,c2);
     fprintf(f,"<table id='clientes' >\n");
     fprintf(f,"<th>Cliente</th> <th>Fecha</th> <th>Nro de Articulo</th> <th>Monto</th> <th>N Articulo</th> <th>Cantidad</th>\n");
-    int i= 0;
 
     while ((strlen(v[i].fechactucom) != 0))
     {
@@ -880,6 +877,7 @@ void escribirReporteHTML(compra v[], int tam)
         }
         i++;
     }
+
     fprintf(f, "</table>");
     fprintf(f, "</body>");
     fprintf(f, "</html>");
@@ -887,15 +885,15 @@ void escribirReporteHTML(compra v[], int tam)
     return;
 }
 
-//PUNTO 8 (tiene que llegarle un vector con todas las compras)
-void escribirReporteCSV(compra v[], int tam)
+//************ PUNTO 8 (tiene que llegarle un vector con todas las compras) **********//
+void EscribirReporteCSV(compra v[], int tam)
 {
-
     FILE *f;
-    f = fopen("Reporte de lotes en excel.csv", "wt");
-
-    fprintf(f,"Cliente;Fecha;Nro de Articulo;Monto;N Articulo;Cantidad;\n");
     int i= 0;
+
+    f = fopen("Reporte de lotes en excel.csv", "wt");
+    fprintf(f,"Cliente;Fecha;Nro de Articulo;Monto;N Articulo;Cantidad;\n");
+
     while (strlen(v[i].fechactucom) != 0)
     {
         fprintf(f,"%d;%s;%d;%d;%d;%d\n",v[i].id_compra,v[i].fechactucom,v[i].monto,v[i].usid,v[i].narticulo,v[i].cantidad);
