@@ -3,6 +3,8 @@
 #include <cstring>
 #include <iostream>
 #include <conio.h>
+#include <stdlib.h>
+
 using namespace std;
 
 //***************************STRUCTS************************************
@@ -62,7 +64,7 @@ void menu (int prog)
     }
     else
     {
-        cout <<"Ingrese la opcion que desee efectuar"<<endl;
+        cout <<"Ingrese la opcion que desee efectuar:"<<endl;
         cout <<"1-Levantar clientes"<<endl;
         cout <<"2-Cargar un cliente"<<endl;
         cout <<"3-Desactivar un cliente un lote"<<endl;
@@ -73,7 +75,7 @@ void menu (int prog)
         cout <<"8-Mostrar todas las compras de un cliente entre dos fechas (HTML)"<<endl;
         cout <<"9-Mostrar todas las compras de un cliente entre dos fechas (CSV)"<<endl;
         cout <<"10-Finalizar jornada y guardar datos"<<endl;
-    };
+    }
 
 };
 
@@ -81,7 +83,7 @@ void menu (int prog)
 
 
 //***************************PUNTO 1************************************
-void levantarclientes() 
+void levantarclientes()
 {
 
     FILE* USERS;
@@ -90,8 +92,9 @@ void levantarclientes()
     //levanto todos los usuarios
     if (USERS = fopen("USUARIOS.BIN","rb"))
     {
-         fread(&variable,sizeof(cliente),1,USERS);
-         
+
+        fread(&variable,sizeof(cliente),1,USERS);
+
             while (!feof(USERS))
             {
                 cout << "***************USUARIO******************" << endl;
@@ -104,8 +107,8 @@ void levantarclientes()
             }
         fclose(USERS);
     }
-    
-    
+
+
 }
 
 //***************************PUNTO 2************************************
@@ -142,16 +145,16 @@ void cargarcli(int &b)
     strcpy(usuarios.fechcrea,ff);
     cout << "Ingrese el importe del usuario" << endl;
     cin >> usuarios.totalcom;
-    
+
     usuarios.estado=true;
     printf("Ingrese su mail: ");
-    scanf ("%79s",dirmail); 
-    
+    scanf ("%79s",dirmail);
+
     strcpy(usuarios.mail,dirmail);
-    
+
     fwrite(&usuarios, sizeof(cliente), 1, USERS);
     fclose(USERS);
-    
+
 }
 
 
@@ -164,7 +167,7 @@ void modificacion()
         exit(1);
     cout<<"Ingrese el mail del cliente a desactivar:   "<<endl;
     char mailloc[150];
-    scanf ("%79s",mailloc); 
+    scanf ("%79s",mailloc);
     cliente clienteloc;
     int existe=0;
     fread(&clienteloc, sizeof(cliente), 1, f);
@@ -192,40 +195,40 @@ void modificacion()
 
 //***************************PUNTO 4************************************
 void busCli()
-{       
+{
     char busquedamail[150];
     FILE* USERS;
     bool encontrado=false;
     cliente variable;
     int busquedaid=0;
-   
+
     if (USERS = fopen("USUARIOS.BIN","rb"))
-    {   
+    {
         cout<< "Cómo desea encontrar al usuario"<<endl;
         cout << "1: Por ID" <<endl;
         cout << "2: Por Mail" <<endl;
         int opcion=0;
-        while (opcion!=1 && opcion != 2) 
+        while (opcion!=1 && opcion != 2)
         {
         cin >> opcion;
         }
         switch (opcion) {
-            case 1: 
+            case 1:
             cout<< "Ingrese la ID del usuario que desea encontrar"<<endl;
             cin >> busquedaid;
             break;
             case 2:
             cout<< "Ingrese el mail del usuario que desea encontrar"<<endl;
-            scanf ("%79s",busquedamail); 
+            scanf ("%79s",busquedamail);
 
             break;
         }
 
         fread(&variable,sizeof(cliente),1,USERS);
-         
+
             while (!feof(USERS))
             {
-                if (strcmp(variable.mail,busquedamail)==0 || variable.id_client == busquedaid) 
+                if (strcmp(variable.mail,busquedamail)==0 || variable.id_client == busquedaid)
                 {
                 cout << "**********USUARIO ENCONTRADO************" << endl;
                 cout << "ID: " << variable.id_client  << endl;
@@ -239,12 +242,12 @@ void busCli()
                 fread(&variable,sizeof(cliente),1,USERS);
             }
         fclose(USERS);
-    } else 
+    } else
     {
         cout << "No hay ningun usuario aún" << endl;
     }
-     
-    if (encontrado==false) 
+
+    if (encontrado==false)
     {
         cout << "No se encontro el usuario" << endl;
     }
@@ -255,21 +258,21 @@ void busCli()
 
 
 //***************************PUNTO 5************************************
-void levantaryordenar() 
+void levantaryordenar()
 {
 
     FILE* USERS;
     int count;
     contacli(count);
     count--;
-    
+
 	int id_clientaux=0;
 	char fechcreaaux[9];
 	bool estadoaux=false;
 	float totalcomaux;
 	char mailaux[150];
 
-    
+
     cliente *p = new cliente[count];
     int j=0;
 
@@ -291,7 +294,7 @@ void levantaryordenar()
             totalcomaux = p[j].totalcom;
             p[j].totalcom = p[j+1].totalcom;
             p[j+1].totalcom = totalcomaux;
-            
+
             id_clientaux = p[j].id_client;
             p[j].id_client = p[j+1].id_client;
             p[j+1].id_client = id_clientaux;
@@ -307,11 +310,11 @@ void levantaryordenar()
             strcpy(mailaux,p[j].mail);
             strcpy(p[j].mail,p[j+1].mail);
             strcpy(p[j+1].mail,mailaux);
-            
+
          }
       }
    }
-   
+
     //muestro por totalcom ordenado
     cout << "**********ORDENADOS POR IMPORTE*********" << endl;
     for (int i=0; i<count; i++) {
@@ -324,17 +327,52 @@ void levantaryordenar()
     }
 }
 
+
+// **************PUNTO 7 MOSTRAR LAS COMPRAS POR PANTALLA***************** //
+
+void MostrarComprasCliente (){
+
+    FILE *pasaje;
+    compra e;
+    cliente c;
+    int id;
+
+    if (pasaje=fopen("Procesados.bin","rb")){
+
+        cout << "Ingrese el ID del cliente: ";  cin >> id;
+        fread(&e,sizeof(compra),1,pasaje);
+        while (!feof(pasaje)){
+
+            if (c.id_client == id){
+
+                cout << "COMPRA_ID: " << e.id_compra << endl;
+                cout << "FECHA Y HORA: " << e.fechactucom << endl;
+                cout << "MONTO: " << e.monto << endl;
+                cout << "USUARIO_ID: " << e.usid << endl;
+                cout << "NRO_ARTICULO: " << e.narticulo << endl;
+                cout << "CANTIDAD: " << e.cantidad << endl;
+
+
+            }
+        }
+        fclose(pasaje);
+    }
+    else{
+        cout << "No existen compras" << endl;
+    }
+}
+
 //PUNTO 7 (tiene que llegarle el vector con todas las compras)
 void escribirReporteHTML(compra v[], int tam)
 {
-    
+
     FILE *f;
     char c1[17]="",c2[17]="";
     cout << "Indique una fecha con el formato DD/MM/AAAA" << endl;
-    scanf ("%79s",c1); 
+    scanf ("%79s",c1);
     cout << "Indique otra fecha" << endl;
-    scanf ("%79s",c2); 
-    
+    scanf ("%79s",c2);
+
     f = fopen("Reporte de lotes en HTML.html", "wt");
     fprintf(f,"<html> \n");
     fprintf(f,"<style>\n");
@@ -345,12 +383,12 @@ void escribirReporteHTML(compra v[], int tam)
     fprintf(f,"#clientes th {padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #04AA6D;color: white;}\n");
     fprintf(f,"</style>\n");
     fprintf(f,"<body> \n");
-    
+
     fprintf(f,"<h1 style='font-family: Arial, Helvetica, sans-serif;'>Lotes entre el %s y el %s </h1>\n",c1,c2);
     fprintf(f,"<table id='clientes' >\n");
     fprintf(f,"<th>Cliente</th> <th>Fecha</th> <th>Nro de Articulo</th> <th>Monto</th> <th>N Articulo</th> <th>Cantidad</th>\n");
     int i= 0;
-    
+
     while ((strlen(v[i].fechactucom) != 0))
     {
         if (strcmp(c1, v[i].fechactucom) <= 0 && strcmp(c2, v[i].fechactucom) >= 0) {
@@ -401,10 +439,10 @@ int main ()
     cin>>comen;
     //system("cls"); ESTO SIRVE PARA LIMPIAR LA CONSOLA
     if (comen==1)
-    {   
-        
+    {
+
          while (comen==1) {
-            
+
             menu(comen);
             cin>>opcion;
             switch (opcion)
@@ -412,7 +450,7 @@ int main ()
                 case 0:
                     comen=0;
                     break;
-                case 1: 
+                case 1:
                     levantarclientes();
                     break;
                 case 2:
@@ -421,11 +459,11 @@ int main ()
                     cargarcli(b);
                     break;
                 case 3:
-                    cout<<"�Se procederaa modificar el estado de un usuario, esta seguro ?";
+                    cout<<"Se procederaa modificar el estado de un usuario, esta seguro ?";
                     option=aceptar();
                     modificacion();
                     break;
-                case 4: 
+                case 4:
                     busCli();
                     break;
                 case 5:
@@ -436,8 +474,7 @@ int main ()
             getch();
             //system("cls"); ESTO SIRVE PARA LIMPIAR LA CONSOLA
         }
-       
-    }
 
+    }
     return 0;
 }
