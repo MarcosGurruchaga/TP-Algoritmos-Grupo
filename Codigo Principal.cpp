@@ -194,7 +194,7 @@ void modificacion()
 }
 
 //***************************PUNTO 4************************************
-void busCli()
+void busCli()  //
 {
     char busquedamail[150];
     FILE* USERS;
@@ -425,7 +425,8 @@ void escribirReporteCSV(compra v[], int tam)
 //***************************MAIN************************************
 int main ()
 {
-	int me=700, art=0, cantart=0, mont=0, totcom=0, montlot=0, cantlot=0, preart=0, montotxart=0, stop=1,comen=1, opcion,  a=0 ;
+	int me=700, art=0, cantart=0, mont=0, totcom=0, montlot=0, cantlot=0;
+	int preart=0, montotxart=0, stop=1,comen=1, opcion,  a=0 ;
 	char ffch[100];
 	bool option=false;
 	cliente aux;
@@ -438,6 +439,7 @@ int main ()
     cout<< "Ingrese 1 para comenzar y 0 para finalizar" << endl;
     cin>>comen;
     //system("cls"); ESTO SIRVE PARA LIMPIAR LA CONSOLA
+
     if (comen==1)
     {
 
@@ -469,10 +471,29 @@ int main ()
                 case 5:
                     levantaryordenar();
                     break;
+                case 6:
+                    break;
+
+                case 7:
+                    break;
+
+                case 8:
+                    break;
+
+                case 9:
+                    break;
+
+                case 10:
+                    break;
+
             }
             cout << "Ingrese cualquier caracter para continuar" << endl;
             getch();
             //system("cls"); ESTO SIRVE PARA LIMPIAR LA CONSOLA
+        }
+
+        if (comen==0){
+            cout << "******** GRACIAS POR UTILIZAR EL PROGRAMA **********" << endl;
         }
 
     }
