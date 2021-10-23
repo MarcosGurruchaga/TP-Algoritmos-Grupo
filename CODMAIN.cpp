@@ -45,7 +45,7 @@ void BuscarYMostrarCliente(void);
 void ListarClientes(void);
 void EscribirReporteHTML(compra [], int );
 void EscribirReporteCSV(compra [], int );
-void procesar_lote(bool);
+void ProcesarLote(bool);
 void CompraRand(cliente,compra&,float&);
 void MostrarComprasDeUsuario(int);
 void cargarCiente(void);
@@ -75,7 +75,7 @@ int main ()
 
     FILE *COMPRAS;
     COMPRAS = fopen("PROCESADOS.bin", "rw");
-    if(!COMPRAS)procesar_lote(0);
+    if(!COMPRAS)ProcesarLote(0);
 
     while(1){
         system("cls");
@@ -137,7 +137,7 @@ int main ()
 
             case 6:
                 system("cls");
-                procesar_lote(1);
+                ProcesarLote(1);
                 cout<< "\n PRESIONE CUALQUIER TECLA PARA REGRESAR";
                 getch();
 
@@ -248,7 +248,7 @@ void CompraRand(cliente x, compra &comp, float &totc){
 
 }
 
-void procesar_lote(bool sec){
+void ProcesarLote(bool sec){
 
     srand((long)time(NULL));
 
